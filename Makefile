@@ -4,8 +4,8 @@ CC = gcc
 all: compile geniso run
 
 compile:
-	${CC} -static -o main main.c
-	echo ./main | cpio -o --format=newc > initramfs.bin
+	${CC} -static -o init main.c
+	echo ./init | cpio -o --format=newc > initramfs.bin
 	mv initramfs.bin iso/boot
 
 geniso:
@@ -24,4 +24,4 @@ run:
 	qemu-system-x86_64 -cdrom 'Besh kan.iso'
 
 clean:
-	rm main iso/boot/initramfs.bin 'Besh kan.iso'
+	rm init iso/boot/initramfs.bin 'Besh kan.iso'

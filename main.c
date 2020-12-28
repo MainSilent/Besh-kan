@@ -4,7 +4,7 @@
 int main() {
     while (1)
     {
-        printf("cool\n");
+        printf("test\n");
         sleep(1);
     }
 }
