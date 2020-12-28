@@ -1,0 +1,6 @@
+default=0
+timeout=0
+
+title Besh kan
+kernel /boot/kernel.bin
+initrd /boot/initramfs.bin
