@@ -5,7 +5,8 @@ all: compile geniso run
 
 compile:
 	${CC} -static -o init main.c
-	echo ./init | cpio -o --format=newc > initramfs.bin
+	mv init initfs/
+	cd initfs/ && find . | cpio -o --format=newc > ../initramfs.bin
 	mv initramfs.bin iso/boot
 
 geniso:
@@ -17,11 +18,15 @@ geniso:
 			-input-charset utf8             \
 			-quiet                          \
 			-boot-info-table                \
-			-o 'Besh kan.iso'               \
+			-o '${name}.iso'               \
 			iso
 
 run:
-	qemu-system-x86_64 -cdrom 'Besh kan.iso'
+	# development
+	#qemu-system-x86_64 -m 4096 -smp 4 -cdrom '${name}.iso'
+
+	# testing 
+	qemu-system-x86_64 -m 4096 -smp 4 -cdrom '${name}.iso' -hda ../../windows.img -boot d -nic none
 
 clean:
-	rm init iso/boot/initramfs.bin 'Besh kan.iso'
+	rm init iso/boot/initramfs.bin '${name}.iso'
