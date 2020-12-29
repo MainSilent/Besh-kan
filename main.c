@@ -1,15 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include <dirent.h>
 
 int main() {
     sleep(1);
-    printf("\033cWelcome to Besh kan\n");
+    printf("\033c");
+    printf("Welcome to Besh kan\n");
 
-      
+    system("chmod 0744 ./init.sh && ./init.sh");
     
     // avoid the program get close
-    printf("\n");
     while (1)
         continue;
     return 0;
