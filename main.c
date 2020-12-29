@@ -4,7 +4,7 @@
 
 int main() {
     // run mount.sh
-    system("chmod 0744 ./mount.sh && ./mount.sh && sleep 1 ");
+    //system("chmod 0744 ./mount.sh && ./mount.sh && sleep 1 ");
 
     // init 
     printf("Welcome to Besh kan\n");
