@@ -1,5 +1,5 @@
 name = Besh kan
-pname = beshkan
+pname = init
 CC = gcc
 
 all: compile geniso run

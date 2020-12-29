@@ -3,11 +3,12 @@
 #include <unistd.h>
 
 int main() {
-    sleep(1);
-    printf("\033c");
-    printf("Welcome to Besh kan\n");
+    // run mount.sh
+    system("chmod 0744 ./mount.sh && ./mount.sh && sleep 1 ");
 
-    system("chmod 0744 ./init.sh && ./init.sh");
+    // init 
+    printf("Welcome to Besh kan\n");
+    system("sh");
     
     // avoid the program get close
     while (1)
