@@ -15,8 +15,8 @@ cd /
 # monut all disks
 for path in $(fdisk -l |awk '{ print $1 }'|grep -v md |grep -v loop |grep .*[[:digit:]]|sort|uniq;); 
 do
-    echo $path
-    #mount -t auto $path /mnt
+    mkdir /mnt/${path##*/}
+    ntfs-3g $path /mnt/${path##*/}
 done
 
 echo "Mount done."
