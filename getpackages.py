@@ -29,7 +29,7 @@ def getLink(url):
     td = a.find_all('td', {'class': 'w-50 pl-4'})
 
     download(td[0].find('a')['href'])
-    requires(td[0].find('a')['href'])
+    #requires(td[0].find('a')['href'])
     
 def requires(url):
     page = requests.request("GET", url, headers=headers)
@@ -40,6 +40,10 @@ def requires(url):
     for link in a:
         getLink(link['href'])
 
-for key, value in packages.items():
-    download(value)
-    requires(value)
+#for key, value in packages.items():
+#    download(value)
+#    requires(value)
+
+url = 'https://debian.pkgs.org/sid/debian-main-amd64/libk5crypto3_1.18.3-4_amd64.deb.html'
+download(url)
+requires(url)

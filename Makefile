@@ -19,7 +19,7 @@ geniso:
 			-input-charset utf8             \
 			-quiet                          \
 			-boot-info-table                \
-			-o '${name}.iso'               \
+			-o '${name}.iso'                \
 			iso
 
 run:
