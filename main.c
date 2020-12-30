@@ -18,3 +18,4 @@ int main() {
         continue;
     return 0;
 }
+//Reset the user password in any operating systems.
