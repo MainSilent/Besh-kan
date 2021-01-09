@@ -24,10 +24,10 @@ geniso:
 
 run:
 	# development
-	#qemu-system-x86_64 -m 4096 -smp 4 -cdrom '${name}.iso'
+	qemu-system-x86_64 -m 4096 -smp 4 -cdrom '${name}.iso'
 
 	# testing 
-	qemu-system-x86_64 -m 4096 -smp 4 -cdrom '${name}.iso' -hda ../../windows.img -boot d -nic none
+	#qemu-system-x86_64 -m 4096 -smp 4 -cdrom '${name}.iso' -hda ../../windows.img -boot d -nic none
 
 clean:
 	rm initfs/${pname} iso/boot/initramfs.bin '${name}.iso'
