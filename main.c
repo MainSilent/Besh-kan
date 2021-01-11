@@ -7,6 +7,7 @@
 void red();
 void green();
 void reset();
+void reboot();
 void check_os(char *);
 
 int main() {
@@ -18,20 +19,24 @@ int main() {
 
     // Besh-kan init
     printf("Welcome to Besh kan\n");
+
+    // Check if any os have been found
     check_os(device);
 
     if (strlen(device) == 0) {
         red();
-        printf("Error: can't find any operating system!\n");
+        printf("Error: can't find any operating system.\n");
         reset();
+        reboot();
     }
     else {
         green();
-        printf("os found\n");
+        printf("Operating System Detected!\n");
         reset();
     }
-    printf("%s\n", device);
 
+
+        
     // avoid the program gets close
     while (1)
         continue;
@@ -76,4 +81,10 @@ void check_os(char *device)
         }
     }
     closedir(dr);
+}
+
+void reboot() {
+    printf("Press enter to reboot: ");
+    getchar();
+    system("reboot -f");
 }
