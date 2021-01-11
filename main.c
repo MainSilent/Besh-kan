@@ -59,7 +59,7 @@ void check_os(char *device)
     DIR *dr = opendir("/mnt"); 
     // search all mounted devices
     while ((de = readdir(dr)) != NULL) {
-        if(de->d_name[0] == 's') {
+        if (de->d_name[0] == 's') {
             // check if the sam and system file exist
             char sam_path[sizeof(de->d_name)+50];
             char system_path[sizeof(de->d_name)+50];
