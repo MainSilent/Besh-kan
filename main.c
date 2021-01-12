@@ -23,6 +23,7 @@ void get_users(char [], struct User *, int *);
 void reboot();
 
 int main() {
+    int choice = 1;
     int count = 0;
     char device[6];
     struct User Users[99];
@@ -44,10 +45,6 @@ int main() {
         reboot();
     }
     else {
-	    blue();
-		printf("Note: press enter to choose the default values.\n");
-		reset();
-
         green();
         printf("Operating System Detected!\n");
         reset();
@@ -64,7 +61,26 @@ int main() {
     }
     printf("\n");
 
-    system("sh");
+    // Get the User by number
+    printf("Select by Number (default 1): ");
+    scanf("%d", &choice);
+
+    while (choice > count || choice < 1) {
+        red();
+        printf("Selected User is not available\n");
+        reset();
+
+        printf("Try again: ");
+        scanf("%d", &choice);
+    }
+
+    printf("Resetting ");
+    blue();
+    printf("%s ", Users[choice].username);
+    reset();
+    printf("Password...\n");
+    
+    //reboot();
         
     // avoid the program gets close
     while (1)
@@ -154,8 +170,6 @@ void get_users(char device[], struct User *Users, int *count) {
         strcpy(Users[*count].lock, data);
     }
     pclose(fp);
-
-
 }
 
 void reboot() {
