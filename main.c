@@ -3,19 +3,33 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <dirent.h> 
+#include <stdbool.h>
+
+struct User
+{
+    int num;
+    char rid[16];
+    char username[128];
+    char lock[32];
+    char admin[16];
+};
 
 void red();
 void green();
+void blue();
 void reset();
-void reboot();
 void check_os(char *);
+void get_users(char [], struct User *, int *);
+void reboot();
 
 int main() {
+    int count = 0;
     char device[6];
+    struct User Users[99];
 
     // run init script
     system("busybox chmod +x /init.sh && /init.sh");
-    system("sleep 5 && clear");
+    system("clear");
 
     // Besh-kan init
     printf("Welcome to Besh kan\n");
@@ -30,12 +44,27 @@ int main() {
         reboot();
     }
     else {
+	    blue();
+		printf("Note: press enter to choose the default values.\n");
+		reset();
+
         green();
         printf("Operating System Detected!\n");
         reset();
     }
 
+    // Get Users
+    get_users(device, Users, &count);
+    // Show Users
+    for (int i = 1; i <= count; i++) {
+        printf(" %d  ->  %-32s %-6s\n",
+            Users[i].num,
+            Users[i].username,
+            Users[i].admin[0] == 'A' ? "Yes" : " -");
+    }
+    printf("\n");
 
+    system("sh");
         
     // avoid the program gets close
     while (1)
@@ -44,20 +73,23 @@ int main() {
 }
 
 void red() {
-  printf("\033[0;31m");
+  printf("\033[31m");
 }
 
 void green() {
-  printf("\033[0;32m");
+  printf("\033[32m");
 }
 
-void reset () {
+void blue() {
+	printf("\033[36m");
+}
+
+void reset() {
   printf("\033[0m");
 }
 
 // check for operating systems
-void check_os(char *device)
-{
+void check_os(char *device) {
     printf("Searching for os:\n");
 
     struct dirent *de; 
@@ -81,6 +113,49 @@ void check_os(char *device)
         }
     }
     closedir(dr);
+}
+
+// check for users
+void get_users(char device[], struct User *Users, int *count) {
+    char stdout[1035];
+    char command[128];
+    FILE *fp;
+
+    printf("Searching for Users...\n");
+    sprintf(command, "chntpw -l /mnt/%s/Windows/System32/config/SAM", device);
+
+    // get users from sam file
+    printf("Users:\n");
+    printf("\n Number -----------Username-----------  Admin?\n");
+    fp = popen(command, "r");
+    if (fp == NULL) {
+        printf("Failed to run chntpw\n");
+        reboot();
+    }
+
+    while (fgets(stdout, sizeof(stdout), fp) != NULL) {
+        // increase the num
+        Users[*count].num = ++(*count);
+
+        // RID
+        char *data = strtok(stdout, "| ");
+        strcpy(Users[*count].rid, data);
+
+        // Username
+        data = strtok(NULL, "| ");
+        strcpy(Users[*count].username, data);
+
+        // Admin?
+        data = strtok(NULL, "| ");
+        strcpy(Users[*count].admin, data);
+
+        // Lock?
+        data = strtok(NULL, "| ");
+        strcpy(Users[*count].lock, data);
+    }
+    pclose(fp);
+
+
 }
 
 void reboot() {
