@@ -183,17 +183,17 @@ short sam_handle_accountbits(struct hive *hdesc, int rid, int mode)
   acb = f->ACB_bits;
 
   if (mode == 1) {
-    printf("Account bits: 0x%04x =\n",acb);
+    //printf("Account bits: 0x%04x =\n",acb);
 
 
-    for (b=0; b < 15; b++) {
+    /*for (b=0; b < 15; b++) {
       printf("[%s] %-15.15s | ",
 	     (acb & (1<<b)) ? "X" : " ", acb_fields[b] );
       if (b%3 == 2) printf("\n");
-    }
+    }*/
 
-    printf("\nFailed login count: %u, while max tries is: %u\n",f->failedcnt,max_sam_lock);
-    printf("Total  login count: %u\n",f->logins);
+    //printf("\nFailed login count: %u, while max tries is: %u\n",f->failedcnt,max_sam_lock);
+    //printf("Total  login count: %u\n",f->logins);
   }
     
   if (mode == 2) {  /* MODE = 2, reset to default sane sets of bits and null failed login counter */
@@ -1231,7 +1231,7 @@ int sam_list_user_groups(struct hive *hdesc, int rid, int check)
 
   for (i = 0; i < count; i++) {
     grp = grps[i];
-    if (!check) printf("%08x ",grp);
+    //if (!check) printf("%08x ",grp);
 
     if (grp == 0x220) isadmin = 1;
 
@@ -1244,7 +1244,7 @@ int sam_list_user_groups(struct hive *hdesc, int rid, int check)
 	
 	cheap_uni2ascii((char *)cd + grpnamoffs, groupname, grpnamlen);
 	
-	printf("= %s (which has %d members)\n",groupname,cd->grp_members);
+	//printf("= %s (which has %d members)\n",groupname,cd->grp_members);
 
 	//	get_grp_members_sid(grp, &sidbuf);
 
@@ -1337,7 +1337,7 @@ int sam_list_users(struct hive *hdesc, int readable)
       }
 
       if (readable == 1) {
-	printf("| %04x | %-30.30s | %-6s | %-8s |\n",
+	printf("| %x | %-30.30s | %-6s | %-8s |\n",
 	       rid, ex.name, ( isadm ? "ADMIN" : "") , (  acb & 0x8000 ? "dis/lock" : (ntpw_len < 16) ? "*BLANK*" : "")  );
       } else if (readable == 0) {
 	printf("%04x:%s:%d:%x:%x\n",

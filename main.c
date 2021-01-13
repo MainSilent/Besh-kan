@@ -20,6 +20,7 @@ void blue();
 void reset();
 void check_os(char *);
 void get_users(char [], struct User *, int *);
+void password_reset(char [], struct User);
 void reboot();
 
 int main() {
@@ -62,7 +63,7 @@ int main() {
     printf("\n");
 
     // Get the User by number
-    printf("Select by Number (default 1): ");
+    printf("Select by Number: ");
     scanf("%d", &choice);
 
     while (choice > count || choice < 1) {
@@ -73,16 +74,13 @@ int main() {
         printf("Try again: ");
         scanf("%d", &choice);
     }
-
-    printf("Resetting ");
-    blue();
-    printf("%s ", Users[choice].username);
-    reset();
-    printf("Password...\n");
     
-    //reboot();
-        
+    // Reset the Password
+    password_reset(device, Users[choice]);
+
     // avoid the program gets close
+    reboot();
+
     while (1)
         continue;
     return 0;
@@ -172,8 +170,45 @@ void get_users(char device[], struct User *Users, int *count) {
     pclose(fp);
 }
 
+// Reset the Password
+void password_reset(char device[], struct User user) {
+    char stdout[1035];
+    char command[128];
+    FILE *fp;
+
+    printf("Resetting ");
+    blue();
+    printf("%s ", user.username);
+    reset();
+    printf("Password...\n");
+
+    // run chntpw command for restarting the password
+    sprintf(command, "chntpw -u 0x%s /mnt/%s/Windows/System32/config/SAM", user.rid, device);
+
+    fp = popen(command, "r");
+    if (fp == NULL) {
+        printf("Failed to run chntpw\n");
+        reboot();
+    }
+
+    while (fgets(stdout, sizeof(stdout), fp) != NULL) {
+        if (strstr(stdout, "Password cleared!")) {
+            green();
+            printf("%s\n", stdout);
+            reset();
+        }
+        else {
+            red();
+            printf("%s\n", stdout);
+            reset();
+        }
+    }
+    pclose(fp);
+}
+
 void reboot() {
     printf("Press enter to reboot: ");
+    getchar();
     getchar();
     system("reboot -f");
 }

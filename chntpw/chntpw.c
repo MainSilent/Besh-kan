@@ -242,18 +242,18 @@ void promote_user(int rid)
 
   if (*yn == 'y') {
 
-    printf("* Adding to 0x220 (Administrators) ...\n");
+    //printf("* Adding to 0x220 (Administrators) ...\n");
     sam_add_user_to_grp(hive[H_SAM], rid, 0x220);
-    printf("* Adding to 0x221 (Users) ...\n");
+    //printf("* Adding to 0x221 (Users) ...\n");
     sam_add_user_to_grp(hive[H_SAM], rid, 0x221);
 
-    printf("* Removing from 0x222 (Guests) ...\n");
+    //printf("* Removing from 0x222 (Guests) ...\n");
     sam_remove_user_from_grp(hive[H_SAM], rid, 0x222);
 
-    printf("\nPromotion DONE!\n");
+    //printf("\nPromotion DONE!\n");
 
   } else {
-    printf("Nothing done, going back..\n");
+    //printf("Nothing done, going back..\n");
   }
 
 }
@@ -421,32 +421,32 @@ char *change_pw(char *buf, int rid, int vlen, int stat)
    }
 #endif
 
-   printf("================= USER EDIT ====================\n");
-   printf("\nRID     : %04d [%04x]\n",rid,rid);
-   printf("Username: %s\n",username);
-   printf("fullname: %s\n",fullname);
-   printf("comment : %s\n",comment);
-   printf("homedir : %s\n\n",homedir);
+   //printf("================= USER EDIT ====================\n");
+   //printf("\nRID     : %04d [%04x]\n",rid,rid);
+   //printf("Username: %s\n",username);
+   //printf("fullname: %s\n",fullname);
+   //printf("comment : %s\n",comment);
+   //printf("homedir : %s\n\n",homedir);
    
    sam_list_user_groups(hive[H_SAM], rid,0);
-   printf("\n");
+   //printf("\n");
 
    acb = sam_handle_accountbits(hive[H_SAM], rid,1);
 
    if (lmpw_len < 16 && gverbose) {
-      printf("** LANMAN password not set. User MAY have a blank password.\n** Usually safe to continue. Normal in Vista\n");
+      //printf("** LANMAN password not set. User MAY have a blank password.\n** Usually safe to continue. Normal in Vista\n");
    }
 
    if (ntpw_len < 16) {
-      printf("** No NT MD4 hash found. This user probably has a BLANK password!\n");
+      //printf("** No NT MD4 hash found. This user probably has a BLANK password!\n");
       if (lmpw_len < 16) {
-	printf("** No LANMAN hash found either. Try login with no password!\n");
+	//printf("** No LANMAN hash found either. Try login with no password!\n");
 #ifdef DOCRYPTO
 	dontchange = 1;
 #endif
       } else {
-	printf("** LANMAN password IS however set. Will now install new password as NT pass instead.\n");
-	printf("** NOTE: Continue at own risk!\n");
+	//printf("** LANMAN password IS however set. Will now install new password as NT pass instead.\n");
+	//printf("** NOTE: Continue at own risk!\n");
 	ntpw_offs = lmpw_offs;
 	*(vp+0xa8) = ntpw_offs - 0xcc;
 	ntpw_len = 16;
@@ -485,19 +485,21 @@ char *change_pw(char *buf, int rid, int vlen, int stat)
 #endif  /* DOCRYPTO */
 
 
-   printf("\n- - - - User Edit Menu:\n");
-   printf(" 1 - Clear (blank) user password\n");
-   printf("%s2 - Unlock and enable user account%s\n", (acb & 0x8000) ? " " : "(", 
-	  (acb & 0x8000) ? " [probably locked now]" : ") [seems unlocked already]");
-   printf(" 3 - Promote user (make user an administrator)\n");
-   printf(" 4 - Add user to a group\n");
-   printf(" 5 - Remove user from a group\n");
+   //printf("\n- - - - User Edit Menu:\n");
+   //printf(" 1 - Clear (blank) user password\n");
+   //printf("%s2 - Unlock and enable user account%s\n", (acb & 0x8000) ? " " : "(", 
+	  //(acb & 0x8000) ? " [probably locked now]" : ") [seems unlocked already]");
+   //printf(" 3 - Promote user (make user an administrator)\n");
+   //printf(" 4 - Add user to a group\n");
+   //printf(" 5 - Remove user from a group\n");
 #ifdef DOCRYPTO
-   printf(" 9 - Edit (set new) user password (careful with this on XP or Vista)\n");
+   //printf(" 9 - Edit (set new) user password (careful with this on XP or Vista)\n");
 #endif
-   printf(" q - Quit editing user, back to user select\n");
+   //printf(" q - Quit editing user, back to user select\n");
 
-   pl = fmyinput("Select: [q] > ",newp,16);
+   //pl = fmyinput("Select: [q] > ",newp,16);
+   pl = 1;
+   *newp = '1';
 
    if ( (pl < 1) || (*newp == 'q') || (*newp == 'Q')) return(0);
 
@@ -603,7 +605,8 @@ char *change_pw(char *buf, int rid, int vlen, int stat)
      v->lmpw_len = 0;
      dirty = 1;
 
-     printf("Password cleared!\n");
+     printf("Password cleared!");
+     return 0;
    }
    
 #if 0
@@ -1059,12 +1062,12 @@ int main(int argc, char **argv)
   
 
   if (list != 1) {
-    printf("\nHives that have changed:\n #  Name\n");
+    //printf("\nHives that have changed:\n #  Name\n");
     for (il = 0; il < no_hives; il++) {
       if (hive[il]->state & HMODE_DIRTY) {
-	if (!logchange) printf("%2d  <%s>",il,hive[il]->filename);
+	//if (!logchange) printf("%2d  <%s>",il,hive[il]->filename);
 	if (hive[il]->state & HMODE_DIDEXPAND) printf(" WARNING: File was expanded! Expermental! Use at own risk!\n");
-	printf("\n");
+	//printf("\n");
 	
 	d = 1;
       }
@@ -1072,18 +1075,19 @@ int main(int argc, char **argv)
     if (d) {
       /* Only prompt user if logging of changed files has not been set */
       /* Thus we assume confirmations are done externally if they ask for a list of changes */
-      if (!logchange) fmyinput("Write hive files? (y/n) [n] : ",iwho,3);
+      //if (!logchange) fmyinput("Write hive files? (y/n) [n] : ",iwho,3);
+      *iwho = 'y';
       if (*iwho == 'y' || logchange) {
 	if (logchange) {
 	  ch = fopen("/tmp/changed","w");
 	}
 	for (il = 0; il < no_hives; il++) {
 	  if (hive[il]->state & HMODE_DIRTY) {
-	    printf("%2d  <%s> - ",il,hive[il]->filename);
+	    //printf("%2d  <%s> - ",il,hive[il]->filename);
 	    if (!writeHive(hive[il])) {
-	      printf("OK");
+	      //printf("OK");
 	      if (hive[il]->state & HMODE_DIDEXPAND) printf(" WARNING: File was expanded! Expermental! Use at own risk!\n");
-	      printf("\n");
+	      //printf("\n");
 	      if (logchange) fprintf(ch,"%s ",hive[il]->filename);
 	      dd = 2;
 	    }
