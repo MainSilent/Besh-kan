@@ -1,5 +1,3 @@
 iso/boot/initramfs
 initfs/init
-initfs/tools/*.deb
 Besh kan.iso
-initfs/*
