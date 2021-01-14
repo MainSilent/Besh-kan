@@ -71,7 +71,6 @@
 
  for i in $ADDON_LIST; do
    echo "Loading tools -> $i"
-   cp -f $i /var/4MLinux
    busybox xz -d $i
    busybox tar -x -f /etc/init.d/*.tar -C /
    rm /etc/init.d/*.tar
