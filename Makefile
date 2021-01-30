@@ -11,15 +11,15 @@ compile:
 	mv initramfs iso/boot
 
 geniso:
-	genisoimage -R                          \
-			-b boot/grub/grub		        \
-			-no-emul-boot                   \
-			-boot-load-size 4               \
-			-A os                           \
-			-input-charset utf8             \
-			-quiet                          \
-			-boot-info-table                \
-			-o '${name}.iso'                \
+	genisoimage -R                             \
+			-b boot/grub/i386-pc/eltorito.img  \
+			-no-emul-boot                      \
+			-boot-load-size 4                  \
+			-A os                              \
+			-input-charset utf8                \
+			-quiet                             \
+			-boot-info-table                   \
+			-o '${name}.iso'                   \
 			iso
 
 run:
