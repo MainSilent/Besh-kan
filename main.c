@@ -193,6 +193,11 @@ void password_reset(char device[], struct User user) {
 
     while (fgets(stdout, sizeof(stdout), fp) != NULL) {
         if (strstr(stdout, "Password cleared!")) {
+            // unmount the device
+            char umount[20] = "umount /dev/";
+            strcat(umount, device);
+            system(umount);
+
             green();
             printf("%s\n", stdout);
             reset();
