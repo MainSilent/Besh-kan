@@ -39,7 +39,7 @@ int main() {
     // Check if any os have been found
     check_os(device);
 
-    if (strlen(device) == 0) {
+    if (strlen(device) == 0 || device[0] == '@') {
         red();
         printf("Error: can't find any operating system.\n");
         reset();
@@ -107,26 +107,28 @@ void check_os(char *device) {
     printf("Searching for os:\n");
 
     struct dirent *de; 
-    DIR *dr = opendir("/mnt"); 
+    DIR *dir = opendir("/mnt"); 
     // search all mounted devices
-    while ((de = readdir(dr)) != NULL) {
-        if (de->d_name[0] == 's') {
-            // check if the sam and system file exist
-            char sam_path[sizeof(de->d_name)+50];
-            char system_path[sizeof(de->d_name)+50];
-            sprintf(sam_path, "/mnt/%s/Windows/System32/config/SAM", de->d_name);
-            sprintf(system_path, "/mnt/%s/Windows/System32/config/SYSTEM", de->d_name);
+    if (dir != NULL) {
+        while ((de = readdir(dir)) != NULL) {
+            if (de->d_name[0] == 's') {
+                // check if the sam and system file exist
+                char sam_path[sizeof(de->d_name)+50];
+                char system_path[sizeof(de->d_name)+50];
+                sprintf(sam_path, "/mnt/%s/Windows/System32/config/SAM", de->d_name);
+                sprintf(system_path, "/mnt/%s/Windows/System32/config/SYSTEM", de->d_name);
 
-            printf("Checking %s...\n", de->d_name);
-            // set device variable to device name
-            if (access(sam_path, R_OK|W_OK) == 0 && access(system_path, R_OK|W_OK) == 0) {
-                for(int i=0; i < 7; ++i)
-                    device[i] = de->d_name[i];
-                break;
+                printf("Checking %s...\n", de->d_name);
+                // set device variable to device name
+                if (access(sam_path, R_OK|W_OK) == 0 && access(system_path, R_OK|W_OK) == 0) {
+                    for(int i=0; i < 7; ++i)
+                        device[i] = de->d_name[i];
+                    break;
+                }
             }
         }
     }
-    closedir(dr);
+    closedir(dir);
 }
 
 // check for users
