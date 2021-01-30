@@ -61,9 +61,10 @@
 
 # BUSYBOX APPLETS
  busybox echo "The item BUSYBOX APPLETS is being processed..."
- /bin/busybox --install -s
+ /bin/busybox --install -s 2>null
  rm /linuxrc 2>null
  rm /init 2>null
+ rm /init.sh 2>null
 
 # install tools
  echo "The tools is being processed..."
@@ -76,15 +77,17 @@
    busybox tar -x -f /etc/init.d/*.tar -C /
    rm /etc/init.d/*.tar
  done
+ ln /lib/libntfs-3g.so.88.0.0 /lib/libntfs-3g.so.883
 
 # monut all disks
+echo "Mounting all disks..."
 for path in $(fdisk -l |awk '{ print $1 }'|grep -v md |grep -v loop |grep .*[[:digit:]]|sort|uniq;); 
 do
     mkdir -p /mnt/${path##*/}
+    ntfsfix /dev/${path##*/} 
     ntfs-3g $path /mnt/${path##*/}
 done
 
 # disable kernel messages
 dmesg -n 1
-#echo 1 > /proc/sys/kernel/printk
 clear
