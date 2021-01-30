@@ -2,6 +2,7 @@
 
 # WRITE PERMISSIONS
  busybox echo "The item WRITE PERMISSIONS is being processed..."
+ busybox mkdir /proc
  busybox mount -t proc proc /proc
  busybox mount -o remount,rw /
 
