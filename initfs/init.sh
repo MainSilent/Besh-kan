@@ -63,8 +63,6 @@
  busybox echo "The item BUSYBOX APPLETS is being processed..."
  /bin/busybox --install -s 2>null
  rm /linuxrc 2>null
- rm /init 2>null
- rm /init.sh 2>null
 
 # install tools
  echo "The tools is being processed..."

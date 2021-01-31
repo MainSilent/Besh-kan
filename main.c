@@ -10,7 +10,7 @@ struct User
     int num;
     char rid[16];
     char username[128];
-    char lock[32];
+    char lock[16];
     char admin[16];
 };
 
@@ -216,7 +216,11 @@ void password_reset(char device[], struct User user) {
 }
 
 void reboot() {
-    printf("  Press enter to reboot: ");
-    getchar();
-    system("reboot -f");
+    char input;
+    printf("  Press enter to reboot or R to restart the program: ");
+    input = getchar();
+    if (input == 'r' || input == 'R')
+        system("/init");
+    else
+        system("reboot -f");
 }
