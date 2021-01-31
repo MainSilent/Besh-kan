@@ -14,11 +14,8 @@ geniso:
 	genisoimage -R                             \
 			-b boot/grub/i386-pc/eltorito.img  \
 			-no-emul-boot                      \
-			-boot-load-size 4                  \
-			-A os                              \
-			-input-charset utf8                \
+			-V '${name}'                       \
 			-quiet                             \
-			-boot-info-table                   \
 			-o '${name}.iso'                   \
 			iso
 

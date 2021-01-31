@@ -1338,7 +1338,7 @@ int sam_list_users(struct hive *hdesc, int readable)
 
       if (readable == 1) {
 	printf("| %x | %-30.30s | %-6s | %-8s |\n",
-	       rid, ex.name, ( isadm ? "ADMIN" : "") , (  acb & 0x8000 ? "dis/lock" : (ntpw_len < 16) ? "*BLANK*" : "")  );
+	       rid, ex.name, ( isadm ? "Yes" : " - ") , (  acb & 0x8000 ? "Yes" : (ntpw_len < 16) ? " - " : " - ")  );
       } else if (readable == 0) {
 	printf("%04x:%s:%d:%x:%x\n",
 	       rid, ex.name, isadm , acb, ntpw_len );

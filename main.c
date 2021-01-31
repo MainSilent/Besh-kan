@@ -55,10 +55,11 @@ int main() {
     get_users(device, Users, &count);
     // Show Users
     for (int i = 1; i <= count; i++) {
-        printf(" %d  ->  %-32s %-6s\n",
+        printf(" %d  ->  %-32s %-6s  %s\n",
             Users[i].num,
             Users[i].username,
-            Users[i].admin[0] == 'A' ? "Yes" : " -");
+            Users[i].admin[0] == 'Y' ? "Yes" : " -",
+            Users[i].lock[0] == 'Y' ? "Yes" : " -");
     }
     printf("\n");
 
@@ -142,7 +143,7 @@ void get_users(char device[], struct User *Users, int *count) {
 
     // get users from sam file
     printf("Users:\n");
-    printf("\n Number -----------Username-----------  Admin?\n");
+    printf("\n Number -----------Username-----------  Admin?  Lock?\n");
     fp = popen(command, "r");
     if (fp == NULL) {
         printf("Failed to run chntpw\n");
