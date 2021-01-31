@@ -34,20 +34,20 @@ int main() {
     system("clear");
 
     // Besh-kan init
-    printf("\n Welcome to Besh kan\n");
+    printf("\n  Welcome to Besh kan\n");
 
     // Check if any os have been found
     check_os(device);
 
     if (strlen(device) == 0 || device[0] == '@') {
         red();
-        printf(" Error: can't find any operating system.\n");
+        printf("  Error: can't find any operating system.\n");
         reset();
         reboot();
     }
     else {
         green();
-        printf(" Operating System Detected!\n");
+        printf("  Operating System Detected!\n");
         reset();
     }
 
@@ -55,7 +55,7 @@ int main() {
     get_users(device, Users, &count);
     // Show Users
     for (int i = 1; i <= count; i++) {
-        printf("  %d  ->  %-32s %-6s  %s\n",
+        printf("   %d  ->  %-32s %-6s  %s\n",
             Users[i].num,
             Users[i].username,
             Users[i].admin[0] == 'Y' ? "Yes" : " -",
@@ -65,15 +65,15 @@ int main() {
 
     // Get the User by number
     char junk;
-    printf(" Select by Number: ");
+    printf("  Select by Number: ");
     scanf("%d%c", &choice, &junk);
 
     while (choice > count || choice < 1) {
         red();
-        printf(" Selected User is not available\n");
+        printf("  Selected User is not available\n");
         reset();
 
-        printf(" Try again: ");
+        printf("  Try again: ");
         scanf("%d%c", &choice, &junk);
     }
     
@@ -106,7 +106,7 @@ void reset() {
 
 // check for operating systems
 void check_os(char *device) {
-    printf(" Searching for os:\n");
+    printf("  Searching for os:\n");
 
     struct dirent *de; 
     DIR *dir = opendir("/mnt"); 
@@ -120,7 +120,7 @@ void check_os(char *device) {
                 sprintf(sam_path, "/mnt/%s/Windows/System32/config/SAM", de->d_name);
                 sprintf(system_path, "/mnt/%s/Windows/System32/config/SYSTEM", de->d_name);
 
-                printf(" Checking %s...\n", de->d_name);
+                printf("  Checking %s...\n", de->d_name);
                 // set device variable to device name
                 if (access(sam_path, R_OK|W_OK) == 0 && access(system_path, R_OK|W_OK) == 0) {
                     for(int i=0; i < 7; ++i)
@@ -139,15 +139,15 @@ void get_users(char device[], struct User *Users, int *count) {
     char command[128];
     FILE *fp;
 
-    printf(" Searching for Users...\n");
+    printf("  Searching for Users...\n");
     sprintf(command, "chntpw -l /mnt/%s/Windows/System32/config/SAM", device);
 
     // get users from sam file
-    printf(" Users:\n");
-    printf("\n  Number -----------Username-----------  Admin?  Lock?\n");
+    printf("  Users:\n");
+    printf("\n   Number -----------Username-----------  Admin?  Lock?\n");
     fp = popen(command, "r");
     if (fp == NULL) {
-        printf(" Failed to run chntpw\n");
+        printf("  Failed to run chntpw\n");
         reboot();
     }
 
@@ -180,7 +180,7 @@ void password_reset(char device[], struct User user) {
     char command[128];
     FILE *fp;
 
-    printf(" Resetting ");
+    printf("  Resetting ");
     blue();
     printf("%s ", user.username);
     reset();
@@ -191,24 +191,24 @@ void password_reset(char device[], struct User user) {
 
     fp = popen(command, "r");
     if (fp == NULL) {
-        printf(" Failed to run chntpw\n");
+        printf("  Failed to run chntpw\n");
         reboot();
     }
 
     while (fgets(stdout, sizeof(stdout), fp) != NULL) {
         if (strstr(stdout, "Password cleared!")) {
             // unmount the device
-            char umount[80] = "echo -n ' '; umount /dev/";
+            char umount[80] = "echo -n '  '; umount /dev/";
             strcat(umount, device);
             system(umount);
 
             green();
-            printf(" %s\n", stdout);
+            printf("  %s\n", stdout);
             reset();
         }
         else {
             red();
-            printf(" %s\n", stdout);
+            printf("  %s\n", stdout);
             reset();
         }
     }
@@ -216,7 +216,7 @@ void password_reset(char device[], struct User user) {
 }
 
 void reboot() {
-    printf(" Press enter to reboot: ");
+    printf("  Press enter to reboot: ");
     getchar();
     system("reboot -f");
 }
