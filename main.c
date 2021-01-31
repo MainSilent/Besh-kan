@@ -64,8 +64,9 @@ int main() {
     printf("\n");
 
     // Get the User by number
+    char junk;
     printf("Select by Number: ");
-    scanf("%d", &choice);
+    scanf("%d%c", &choice, &junk);
 
     while (choice > count || choice < 1) {
         red();
@@ -73,7 +74,7 @@ int main() {
         reset();
 
         printf("Try again: ");
-        scanf("%d", &choice);
+        scanf("%d%c", &choice, &junk);
     }
     
     // Reset the Password
@@ -216,7 +217,6 @@ void password_reset(char device[], struct User user) {
 
 void reboot() {
     printf("Press enter to reboot: ");
-    getchar();
     getchar();
     system("reboot -f");
 }
