@@ -4,6 +4,16 @@
 #include <unistd.h>
 #include <dirent.h> 
 #include <stdbool.h>
+#include <linux/fs.h>
+#include <sys/fcntl.h> 
+#include <sys/ioctl.h>   
+
+struct OS
+{
+    char type[20];
+    char device[6];
+    unsigned long size;
+};
 
 struct User
 {
@@ -18,15 +28,18 @@ void red();
 void green();
 void blue();
 void reset();
-void check_os(char *);
+void check_os(struct OS *, int *);
 void get_users(char [], struct User *, int *);
 void password_reset(char [], struct User);
+unsigned long get_size(const char *);
 void reboot();
 
 int main() {
-    int choice = 1;
     int count = 0;
+    int countOS = 0;
+    int choice = 1;
     char device[6];
+    struct OS OSs[99];
     struct User Users[99];
 
     // run init script
@@ -37,8 +50,14 @@ int main() {
     printf("\n  Welcome to Besh kan\n");
 
     // Check if any os have been found
-    check_os(device);
+    check_os(OSs, &countOS);
 
+    // select the os by default if there is only one operating system
+    if (countOS == 1) 
+        strcpy(device, OSs[1].device);
+    // or let the user select the operating system
+
+    // if device is empty there is no operating system
     if (strlen(device) == 0 || device[0] == '@') {
         red();
         printf("  Error: can't find any operating system.\n");
@@ -105,7 +124,7 @@ void reset() {
 }
 
 // check for operating systems
-void check_os(char *device) {
+void check_os(struct OS *OSs, int *countOS) {
     printf("  Searching for os:\n");
 
     struct dirent *de; 
@@ -121,11 +140,21 @@ void check_os(char *device) {
                 sprintf(system_path, "/mnt/%s/Windows/System32/config/SYSTEM", de->d_name);
 
                 printf("  Checking %s...\n", de->d_name);
-                // set device variable to device name
+                // Check for Windows
                 if (access(sam_path, R_OK|W_OK) == 0 && access(system_path, R_OK|W_OK) == 0) {
-                    for(int i=0; i < 7; ++i)
-                        device[i] = de->d_name[i];
-                    break;
+                    // Increament OS count 
+                    (*countOS)++;
+
+                    // OS Type
+                    OSs[*countOS].type == "Windows";
+
+                    //Device Name
+                    strcpy(OSs[*countOS].device, de->d_name);
+
+                    // Device Size
+                    char path[sizeof(de->d_name)+20];
+                    sprintf(path, "/dev/%s", de->d_name);
+                    OSs[*countOS].size = get_size(path);
                 }
             }
         }
@@ -213,6 +242,16 @@ void password_reset(char device[], struct User user) {
         }
     }
     pclose(fp);
+}
+
+unsigned long get_size(const char *path) {
+    int fd;
+    unsigned long numblocks=0;
+    fd = open(path, O_RDONLY);
+    ioctl(fd, BLKGETSIZE, &numblocks);
+    close(fd);
+
+    return numblocks;
 }
 
 void reboot() {
