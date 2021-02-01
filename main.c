@@ -10,8 +10,9 @@
 
 struct OS
 {
+    int num;
     char type[20];
-    char device[6];
+    char device[50];
     unsigned long size;
 };
 
@@ -38,7 +39,8 @@ int main() {
     int count = 0;
     int countOS = 0;
     int choice = 1;
-    char device[6];
+    char junk;
+    char device[50];
     struct OS OSs[99];
     struct User Users[99];
 
@@ -53,9 +55,48 @@ int main() {
     check_os(OSs, &countOS);
 
     // select the os by default if there is only one operating system
-    if (countOS == 1) 
+    if (countOS == 1) {
+        green();
+            printf("  Operating System Detected!\n");
+        reset();
         strcpy(device, OSs[1].device);
+    }
     // or let the user select the operating system
+    else if (countOS > 1) {
+        green();
+            printf("  Multiple Operating Systems Detected!\n");
+        reset();
+
+        blue();
+            printf("\n  Operating Systems:\n");
+        reset();
+
+        printf("   Number ----Type----  Device  Size\n");
+
+        // Show operating system
+        for (int i = 1; i <= countOS; i++) {
+            printf("   %d  ->  %-13s %-6s  %.2f\n",
+                    OSs[i].num,
+                    OSs[i].type,
+                    OSs[i].device,
+                    (double)OSs[i].size * 512.0 / (1024 * 1024 * 1024));
+        }
+        printf("\n");
+
+        printf("  Select by Number: ");
+        scanf("%d%c", &choice, &junk);
+
+        while (choice > countOS || choice < 1) {
+            red();
+            printf("  Selected OS is not available\n");
+            reset();
+
+            printf("  Try again: ");
+            scanf("%d%c", &choice, &junk);
+        }
+
+        strcpy(device, OSs[choice].device);
+    }
 
     // if device is empty there is no operating system
     if (strlen(device) == 0 || device[0] == '@') {
@@ -63,11 +104,6 @@ int main() {
         printf("  Error: can't find any operating system.\n");
         reset();
         reboot();
-    }
-    else {
-        green();
-        printf("  Operating System Detected!\n");
-        reset();
     }
 
     // Get Users
@@ -83,13 +119,12 @@ int main() {
     printf("\n");
 
     // Get the User by number
-    char junk;
     printf("  Select by Number: ");
     scanf("%d%c", &choice, &junk);
 
     while (choice > count || choice < 1) {
         red();
-        printf("  Selected User is not available\n");
+            printf("  Selected User is not available\n");
         reset();
 
         printf("  Try again: ");
@@ -143,10 +178,10 @@ void check_os(struct OS *OSs, int *countOS) {
                 // Check for Windows
                 if (access(sam_path, R_OK|W_OK) == 0 && access(system_path, R_OK|W_OK) == 0) {
                     // Increament OS count 
-                    (*countOS)++;
+                    OSs[*countOS].num = ++(*countOS);
 
                     // OS Type
-                    OSs[*countOS].type == "Windows";
+                    strcpy(OSs[*countOS].type, "Windows");
 
                     //Device Name
                     strcpy(OSs[*countOS].device, de->d_name);
@@ -172,8 +207,11 @@ void get_users(char device[], struct User *Users, int *count) {
     sprintf(command, "chntpw -l /mnt/%s/Windows/System32/config/SAM", device);
 
     // get users from sam file
-    printf("  Users:\n");
-    printf("\n   Number -----------Username-----------  Admin?  Lock?\n");
+    blue();
+        printf("\n  Users:\n");
+    reset();
+
+    printf("   Number -----------Username-----------  Admin?  Lock?\n");
     fp = popen(command, "r");
     if (fp == NULL) {
         printf("  Failed to run chntpw\n");
