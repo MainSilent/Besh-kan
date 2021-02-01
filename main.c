@@ -97,11 +97,10 @@ int main() {
 
         strcpy(device, OSs[choice].device);
     }
-
-    // if device is empty there is no operating system
-    if (strlen(device) == 0 || device[0] == '@') {
+    // if countOS is 0 there is no operating system
+    else {
         red();
-        printf("  Error: can't find any operating system.\n");
+            printf("  Error: can't find any operating system.\n");
         reset();
         reboot();
     }
