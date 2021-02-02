@@ -113,7 +113,7 @@ int main() {
             Users[i].num,
             Users[i].username,
             Users[i].admin[0] == 'Y' ? "Yes" : " -",
-            Users[i].lock[0] == 'Y' ? "Yes" : " -");
+            Users[i].lock[0] == 'Y' ? "dis/lock" : "   -");
     }
     printf("\n");
 
@@ -190,6 +190,8 @@ void check_os(struct OS *OSs, int *countOS) {
                     sprintf(path, "/dev/%s", de->d_name);
                     OSs[*countOS].size = get_size(path);
                 }
+                // Check for linux
+                
             }
         }
     }
@@ -210,7 +212,7 @@ void get_users(char device[], struct User *Users, int *count) {
         printf("\n  Users:\n");
     reset();
 
-    printf("   Number -----------Username-----------  Admin?  Lock?\n");
+    printf("   Number -----------Username-----------  Admin?  ---Lock?---\n");
     fp = popen(command, "r");
     if (fp == NULL) {
         printf("  Failed to run chntpw\n");

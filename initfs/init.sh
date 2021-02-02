@@ -81,9 +81,13 @@
 echo "Mounting all disks..."
 for path in $(fdisk -l |awk '{ print $1 }'|grep -v md |grep -v loop |grep .*[[:digit:]]|sort|uniq;); 
 do
-    mkdir -p /mnt/${path##*/}
-    ntfsfix /dev/${path##*/} 
-    ntfs-3g $path /mnt/${path##*/}
+    mkdir -p /mnt/${path##*/} 2>null
+    ntfsfix /dev/${path##*/} 2>null
+    ntfs-3g -o remove_hiberfile $path /mnt/${path##*/} 2>null
+
+    if [ ! $(ls -A /mnt/${path##*/}) ]; then
+      mount $path /mnt/${path##*/} 2>null
+    fi
 done
 
 # disable kernel messages
