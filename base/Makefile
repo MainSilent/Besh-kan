@@ -1,11 +1,3 @@
-#
-# Makefile for the Offline NT Password Editor
-#
-#
-# Change here to point to the needed OpenSSL libraries & .h files
-# See INSTALL for more info.
-#
-
 #SSLPATH=/usr/local/ssl
 OSSLPATH=/usr
 OSSLINC=$(OSSLPATH)/include

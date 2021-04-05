@@ -205,7 +205,7 @@ void get_users(char device[], struct User *Users, int *count) {
     FILE *fp;
 
     printf("  Searching for Users...\n");
-    sprintf(command, "chntpw -l /mnt/%s/Windows/System32/config/SAM", device);
+    sprintf(command, "base -l /mnt/%s/Windows/System32/config/SAM", device);
 
     // get users from sam file
     blue();
@@ -215,7 +215,7 @@ void get_users(char device[], struct User *Users, int *count) {
     printf("   Number -----------Username-----------  Admin?  ---Lock?---\n");
     fp = popen(command, "r");
     if (fp == NULL) {
-        printf("  Failed to run chntpw\n");
+        printf("  Failed to run base\n");
         reboot();
     }
 
@@ -254,12 +254,12 @@ void password_reset(char device[], struct User user) {
     reset();
     printf("Password...\n");
 
-    // run chntpw command for restarting the password
-    sprintf(command, "chntpw -u 0x%s /mnt/%s/Windows/System32/config/SAM", user.rid, device);
+    // run base command for restarting the password
+    sprintf(command, "base -u 0x%s /mnt/%s/Windows/System32/config/SAM", user.rid, device);
 
     fp = popen(command, "r");
     if (fp == NULL) {
-        printf("  Failed to run chntpw\n");
+        printf("  Failed to run base\n");
         reboot();
     }
 

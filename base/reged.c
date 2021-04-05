@@ -1,35 +1,3 @@
-/*
- * reged.c - Simple Registry Edit Utility for Windows registry hives.
- *
- * Frontend command line utility which uses registry library to:
- * - Export (parts) of registry hive to .reg file
- * - Import .reg file into registry hive
- * - Do interactive registry edit
- * 
- * Changes:
- * 2011 - may: Trace flags moved here.
- * 2011 - apr: Added options for import and flags for safe modes..
- * 
- *
- *****
- *
- * Copyright (c) 1997-2014 Petter Nordahl-Hagen.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * See file GPL.txt for the full license.
- * 
- *****
- */
-
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

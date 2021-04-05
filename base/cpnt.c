@@ -1,27 +1,3 @@
-/*
- * cpnt.c - Copy over file without truncating.
- *          For use on my current floppy, since it's 'cp' insist
- *          on truncating first, and NTFS doesn't like that yet.
- *
- * 2003-apr: First version
- *
- *****
- *
- * Copyright (c) 1997-2007 Petter Nordahl-Hagen.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * See file GPL.txt for the full license.
- * 
- */ 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>

@@ -1,33 +1,3 @@
-/*
- * sampasswd.c - SAM database, add or remove user in a group
- * 
- * Command line utility, non-interactive to reset user password and/or
- * account bits for a user in the SAM database
- *
- * Changes:
- * 2013 - aug: cleaned up a bit for release, some debug still there
- * 2013 - apr-may: reset one, all and first features
- * 2012 - oct: First version, some code from earlier chntpw.c. Not released.
- *
- *****
- *
- * Copyright (c) 1997-2014 Petter Nordahl-Hagen.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * See file GPL.txt for the full license.
- * 
- *****
- */
-
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

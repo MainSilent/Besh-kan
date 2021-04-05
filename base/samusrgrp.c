@@ -1,38 +1,3 @@
-/*
- * samusrgrp.c - SAM database, add or remove user in a group
- * 
- * Command line utility, non-inreractive to add or remove a user to/from
- * a local group in the SAM database, list groups with memberships etc
- *
- * When run as:
- *   samusrtogrp - add user to group
- *   samusrfromgrp - remove user from a group
- * or as any other name, option of what to do must be specified
- *
- * Changes:
- * 2013 - aug: cleaned up for release, still some debug & strangeness left
- * 2013 - apr-may: add, remove, list working (more or less)
- * 2012 - oct: First version, never released
- *
- *****
- *
- * Copyright (c) 1997-2014 Petter Nordahl-Hagen.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 2 of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * See file GPL.txt for the full license.
- * 
- *****
- */
-
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

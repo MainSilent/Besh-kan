@@ -1,5 +1,3 @@
-/* Mickeysoft hashroutine in XP 'lh' key index lists */
-
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
