@@ -7,7 +7,7 @@ all: compile geniso
 compile:
 	${CC} -static -o ${pname} main.c
 	mv ${pname} initfs/
-	cd initfs/ && find . | cpio -o --format=newc > ../initramfs
+	cd initfs/ && find . | cpio --quiet -H newc -o | gzip -9 -n > ../initramfs
 	mv initramfs iso/boot
 
 geniso:
