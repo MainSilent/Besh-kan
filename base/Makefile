@@ -18,13 +18,13 @@ OSSLLIB=$(OSSLPATH)/lib
 LIBS=-L$(OSSLLIB)
 
 
-all: chntpw chntpw.static cpnt reged reged.static samusrgrp samusrgrp.static sampasswd sampasswd.static
+all: base base.static cpnt reged reged.static samusrgrp samusrgrp.static sampasswd sampasswd.static
 
-chntpw: chntpw.o ntreg.o edlib.o libsam.o
-	$(CC) $(CFLAGS) -o chntpw chntpw.o ntreg.o edlib.o libsam.o $(LIBS)
+base: base.o ntreg.o edlib.o libsam.o
+	$(CC) $(CFLAGS) -o base base.o ntreg.o edlib.o libsam.o $(LIBS)
 
-chntpw.static: chntpw.o ntreg.o edlib.o libsam.o
-	$(CC) -static $(CFLAGS) -o chntpw.static chntpw.o ntreg.o edlib.o libsam.o $(LIBS)
+base.static: base.o ntreg.o edlib.o libsam.o
+	$(CC) -static $(CFLAGS) -o base.static base.o ntreg.o edlib.o libsam.o $(LIBS)
 
 cpnt: cpnt.o
 	$(CC) $(CFLAGS) -o cpnt cpnt.o $(LIBS)
@@ -58,5 +58,5 @@ sampasswd.static: sampasswd.o ntreg.o libsam.o
 	$(CC) -c $(CFLAGS) $<
 
 clean:
-	rm -f *.o chntpw chntpw.static cpnt reged reged.static samusrgrp samusrgrp.static sampasswd sampasswd.static *~
+	rm -f *.o base base.static cpnt reged reged.static samusrgrp samusrgrp.static sampasswd sampasswd.static *~
 
