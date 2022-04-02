@@ -1,8 +1,8 @@
 # Besh-kan
 Other operating systems will be added soon...
 
-### [Video Sample](https://besh-kan.github.io/home/video/sample.webm)
-![ScreenShot](https://besh-kan.github.io/home/images/background.png)
+### [Video Sample](https://www.youtube.com/watch?v=aKyJ9xHmErk)
+![ScreenShot](https://raw.githubusercontent.com/MainSilent/Besh-kan/master/demo.png)
 
 # Bugs
 We get error if the hibernate is on.
